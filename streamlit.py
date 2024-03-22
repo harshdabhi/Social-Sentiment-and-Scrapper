@@ -176,8 +176,10 @@ col1, col2, col3 = st.columns([1,3,1])
 
 with col2:
 # Create a Streamlit app
-    st.write("Developer: harsh dabhi")
-    st.markdown('<a href="https://github.com/your-username/your-repo" target="_blank">GitHub Repository</a>')
+   
+
+    st.write("check out this [link](https://github.com/harshdabhi/Social-Sentiment-and-Scrapper):👨‍💼:")
+
     st.title("Telegram Channel Data Scraper")
     st.write("Enter the list of Telegram channels and the limit of scraping data.")
 
