@@ -178,7 +178,7 @@ with col2:
 # Create a Streamlit app
    
 
-    st.write("check out this [link](https://github.com/harshdabhi/Social-Sentiment-and-Scrapper):👨‍💼:")
+    st.write("Developer : Harsh Dabhi. Check out github [link](https://github.com/harshdabhi/Social-Sentiment-and-Scrapper):👨‍💼:")
 
     st.title("Telegram Channel Data Scraper")
     st.write("Enter the list of Telegram channels and the limit of scraping data.")
