@@ -6,11 +6,23 @@ import streamlit as st
 import numpy as np
 import plotly.express as px
 
+
 class telegram_scrapper:
     def __init__(self):
         return None
 
     def cleanText(self, text):
+
+        """
+       Clean the input text by removing @mentions, hashtags, URLs, and newlines.
+       
+       Parameters:
+       - text (str): The input text to be cleaned.
+       
+       Returns:
+       - str: The cleaned text after removing the specified patterns.
+        """
+       
         if isinstance(text, str):
             text = re.sub('@[A-Za-z0-9_]+', '', text)  # removes @mentions
             text = re.sub('#', '', text)  # removes hastag '#' symbol
@@ -22,12 +34,43 @@ class telegram_scrapper:
             return ''
 
     def getSubjectivity(self, text):
+        """
+                
+        Calculate and return the subjectivity of the given text using TextBlob sentiment analysis.
+        
+        Parameters:
+            text (str): The text for which subjectivity needs to be determined.
+            
+        Returns:
+            float: The subjectivity score of the text.
+        
+        """
         return TextBlob(text).sentiment.subjectivity
 
     def getPolarity(self, text):
+        """
+        Calculate the polarity of the given text using TextBlob's sentiment analysis.
+        
+        Parameters:
+            self: The instance of the class.
+            text: The input text for which polarity needs to be calculated.
+        
+        Returns:
+            The polarity of the input text.
+        """
         return TextBlob(text).sentiment.polarity
 
     def getAnalysis(self, score):
+        """
+        Determines the sentiment analysis based on the given score.
+
+        Parameters:
+            score (int): The score to analyze.
+
+        Returns:
+            str: The sentiment analysis result. Possible values are 'Negative', 'Neutral', or 'Positive'.
+        """
+
         if score < 0:
             return 'Negative'
         elif score == 0:
@@ -36,10 +79,29 @@ class telegram_scrapper:
             return 'Positive'
 
     def create_wordcloud(self, text):
+        """
+        Creates a word cloud from the input text.
+
+        Args:
+            self: The class instance.
+            text: The input text to generate the word cloud from.
+
+        Returns:
+            A string containing all the words from the input text.
+        """
         allWords = ' '.join([tweets for tweets in text])
         return allWords
 
     def most_mentioned(self, df_series):
+        """
+        Returns the names and counts of the most mentioned words in the given DataFrame series.
+        
+        Parameters:
+            df_series (DataFrame series): The input DataFrame series.
+        
+        Returns:
+            tuple: A tuple containing two lists - the names of the most mentioned words and their respective counts.
+        """
         t = re.findall('\$[A-Za-z]+', self.create_wordcloud(df_series))
         name = []
         counts = []
@@ -49,6 +111,12 @@ class telegram_scrapper:
         return name, counts
     
     def sentiment_pie_chart(self, df):
+        """
+    	Generates a pie chart based on the sentiment analysis results in the input DataFrame.
+
+    	:param df: The DataFrame containing the sentiment analysis results.
+    	:return: The generated pie chart.
+    	"""
 
         df_grouped = df['Analysis'].value_counts(ascending=False).reset_index(name='counts')
         fig = px.pie(df_grouped, values='counts', names='Analysis', title='Sentiment Analysis')
@@ -58,6 +126,18 @@ class telegram_scrapper:
 
 
     def scrapping_context(self, channels, max_limit):
+
+        """
+        Scrapes context from the given channels up to the specified maximum limit.
+
+        Parameters:
+            channels (list): The list of channels to scrape context from.
+            max_limit (int): The maximum number of items to scrape from each channel.
+
+        Returns:
+            DataFrame: A DataFrame containing the scraped context along with additional analysis columns.
+        """
+
         date_repo = []
         outlinks_repo = []
         context_repo = []
@@ -89,13 +169,15 @@ class telegram_scrapper:
         return df
     
 
+######## App Code ######
 st.set_page_config(page_title="Telegram Channel Data Scraper", page_icon=":🤖:", layout="wide")
 
 col1, col2, col3 = st.columns([1,3,1])
 
 with col2:
 # Create a Streamlit app
-
+    st.write("Developer: harsh dabhi")
+    st.markdown('<a href="https://github.com/your-username/your-repo" target="_blank">GitHub Repository</a>')
     st.title("Telegram Channel Data Scraper")
     st.write("Enter the list of Telegram channels and the limit of scraping data.")
 
